@@ -1,33 +1,35 @@
 package view.contextWindow;
 
-import com.google.common.eventbus.Subscribe;
-import com.intellij.openapi.wm.ToolWindow;
-
 import javax.swing.*;
-import com.intellij.openapi.ui.SimpleToolWindowPanel;
 
 /**
  * @author jikangwang
  */
-public class ContextWindow{
+public class ContextWindow implements ContextContract.View {
     private JPanel myContextWindowContent;
     private JTextArea jTextArea;
+    private JButton loadContextButton;
+    private JButton saveContextButton;
+    private JComboBox nameComboBox;
+    private JLabel nameLabel;
+    private ContextContract.Presenter mPresenter;
 
     public ContextWindow() {
-    }
-
-
-
-    public void currentDateTime() {
-
+        setPresenter(null);
+        loadContextButton.addActionListener(e -> mPresenter.loadContext());
     }
 
     public JPanel getContent() {
         return myContextWindowContent;
     }
 
-    @Subscribe
-    public void task(String s) {
-       jTextArea.setText(s);
+    @Override
+    public void setPresenter(ContextContract.Presenter presenter) {
+        this.mPresenter = new ContextPresenter(this);
+    }
+
+    @Override
+    public void showContext(String s) {
+        jTextArea.setText(s);
     }
 }

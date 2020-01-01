@@ -15,15 +15,29 @@ import java.awt.*;
 public class MainWindow {
     private JPanel mainContent = new JPanel(new GridBagLayout());
     private MyToolWindow myToolWindow;
-    SimpleToolWindowPanel toolWindowContent =new SimpleToolWindowPanel(true, true);
+    SimpleToolWindowPanel toolWindowContent = new SimpleToolWindowPanel(true, true);
     private ContextWindow contextWindow = new ContextWindow();
 
     public MainWindow(ToolWindow toolWindow) {
-        EventBus eventBus=new EventBus();
+        EventBus eventBus = new EventBus();
         eventBus.register(contextWindow);
-        myToolWindow=new MyToolWindow(eventBus);
-        mainContent.add(contextWindow.getContent(),new GridBagConstraintsBuilder().fillHorizontal().gridx(0).gridy(0).weightx(1.0).gridwidth(2).build());
-        mainContent.add(myToolWindow.getContent(),new GridBagConstraintsBuilder().fillBoth().weightx(1.0).weighty(0.0).gridx(0).gridy(1).build());
+        myToolWindow = new MyToolWindow(eventBus);
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+
+        c.weightx = 1.0;
+        c.weighty = 3;
+        c.anchor = GridBagConstraints.NORTH;
+        mainContent.add(myToolWindow.getContent(), c);
+
+
+        c.weighty = 1;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridheight = GridBagConstraints.REMAINDER;
+        c.anchor = GridBagConstraints.SOUTH;
+        mainContent.add(contextWindow.getContent(), c);
+
         toolWindowContent.setContent(mainContent);
     }
 
