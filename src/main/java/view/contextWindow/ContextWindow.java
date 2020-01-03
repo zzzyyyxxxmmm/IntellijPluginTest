@@ -1,5 +1,7 @@
 package view.contextWindow;
 
+import javafx.scene.control.Tooltip;
+
 import javax.swing.*;
 
 /**
@@ -7,16 +9,21 @@ import javax.swing.*;
  */
 public class ContextWindow implements ContextContract.View {
     private JPanel myContextWindowContent;
-    private JTextArea jTextArea;
     private JButton loadContextButton;
     private JButton saveContextButton;
     private JComboBox nameComboBox;
     private JLabel nameLabel;
+    private JLabel updatingLabel;
     private ContextContract.Presenter mPresenter;
 
     public ContextWindow() {
         setPresenter(null);
         loadContextButton.addActionListener(e -> mPresenter.loadContext());
+        saveContextButton.addActionListener(e -> mPresenter.saveContext());
+        nameComboBox.setEditable(true);
+        nameComboBox.addItem("123");
+        nameComboBox.addItem("234");
+        updatingLabel.setVisible(false);
     }
 
     public JPanel getContent() {
@@ -30,6 +37,12 @@ public class ContextWindow implements ContextContract.View {
 
     @Override
     public void showContext(String s) {
-        jTextArea.setText(s);
     }
+
+    @Override
+    public void showUpdatingLabel(boolean show) {
+        updatingLabel.setVisible(show);
+    }
+
+
 }
